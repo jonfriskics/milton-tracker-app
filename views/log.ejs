@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Milton Tracker</title>
+</head>
+<body class="m-0 p-0 w-full h-full">
+    <div class="flex justify-center p-0">
+        <div class="w-full max-w-4xl">
+            <div class="w-full max-w-4xl">
+                <p>Last update was: <%= lastUpdated %></p>
+            </div>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-800 text-white">
+                        <th class="p-4 text-left">Power?</th>
+                        <th class="p-4 text-left">Internet?</th>
+                        <th class="p-4 text-left">Cell?</th>
+                        <th class="p-4 text-right">Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.sort((a, b) => b.timestamp - a.timestamp).forEach(record => { %>
+                        <tr class="<%= record.id % 2 === 0 ? 'bg-gray-100' : 'bg-white' %>">
+                            <td class="p-4 text-left">
+                                <% if (record.hasPower) { %>
+                                    <i class="fas fa-bolt text-green-500"></i>
+                                <% } else { %>
+                                    <i class="fas fa-bolt text-red-500"></i>
+                                <% } %>    
+                            </td>
+                            <td class="p-4 text-left">
+                                <% if (record.hasInternet) { %>
+                                    <i class="fas fa-wifi text-green-500"></i>
+                                <% } else { %>
+                                    <i class="fas fa-wifi text-red-500"></i>
+                                <% } %>
+                            </td>
+                            <td class="p-4 text-left">
+                                <% if (record.hasCellSignal) { %>
+                                    <i class="fas fa-signal text-green-500"></i>
+                                <% } else { %>
+                                    <i class="fas fa-signal text-red-500"></i>
+                                <% } %>
+                            </td>
+                            <td class="p-4 text-right"><%= new Date(record.timestamp * 1000).toLocaleString('en-US', { 
+                                    timeZone: 'America/New_York',
+                                    year: 'numeric', 
+                                    month: 'long', 
+                                    day: 'numeric', 
+                                    hour: '2-digit', 
+                                    minute: '2-digit', 
+                                    hour12: true 
+                                }) %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
